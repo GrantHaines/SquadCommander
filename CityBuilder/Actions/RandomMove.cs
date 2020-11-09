@@ -12,67 +12,50 @@ namespace CityBuilder.Actions
 	{
 		public GoRogue.Coord Goal;
 		static public Random rand = new Random();
+		public int WaitTime;
 
-		public RandomMove() : base()
+		public RandomMove(Entity parent) : base(parent)
 		{
 			Goal = new GoRogue.Coord(-1, -1);
+			WaitTime = 0;
 		}
 
-		public override void PerformAction(Entity parent)
+		public override void PerformAction()
 		{
-			if (Goal == parent.Position || Goal.X == -1)
+			if (Goal == Parent.Position || Goal.X == -1)
 			{
 				GoRogue.Coord zero = new GoRogue.Coord(0, 0);
 				int x;
 				int y;
 				do
 				{
-					x = rand.Next(0, parent.CurrentMap.Width);
-					y = rand.Next(0, parent.CurrentMap.Height);
+					x = rand.Next(0, Parent.CurrentMap.Width);
+					y = rand.Next(0, Parent.CurrentMap.Height);
 					Goal = new GoRogue.Coord(x, y);
-				} while ((Goal - parent.Position) == zero || !parent.CurrentMap.WalkabilityView[x, y]);
+				} while ((Goal - Parent.Position) == zero || !Parent.CurrentMap.WalkabilityView[x, y]);
 			}
 
-			Map.Map map = (Map.Map)parent.CurrentMap;
+			Map.Map map = (Map.Map)Parent.CurrentMap;
 			GoRogue.Pathing.FastAStar pathing = new GoRogue.Pathing.FastAStar(map.WalkabilityView, GoRogue.Distance.EUCLIDEAN);
-			GoRogue.Pathing.Path path = pathing.ShortestPath(parent.Position, Goal);
+			GoRogue.Pathing.Path path = pathing.ShortestPath(Parent.Position, Goal);
 			if (path != null)
 			{
 				GoRogue.Coord next = path.GetStepWithStart(1);
-				GoRogue.Coord toMove = next - parent.Position;
-				parent.Position += toMove;
+				GoRogue.Coord toMove = next - Parent.Position;
+				Parent.Position += toMove;
 			}
 			else
 			{
-				Goal = new GoRogue.Coord(-1, -1);
+				if (WaitTime > 10)
+				{
+					Goal = new GoRogue.Coord(-1, -1);
+					WaitTime = 0;
+				}
+				else
+				{
+					WaitTime++;
+				}
 			}
-
-
-			/*
-			int dir = rand.Next(0, 4);
-			GoRogue.Coord move;
-
-			switch (dir)
-			{
-				case (0):
-					move = new GoRogue.Coord(-1, 0);
-					parent.Position += move;
-					break;
-				case (1):
-					move = new GoRogue.Coord(0, 1);
-					parent.Position += move;
-					break;
-				case (2):
-					move = new GoRogue.Coord(1, 0);
-					parent.Position += move;
-					break;
-				case (3):
-					move = new GoRogue.Coord(0, -1);
-					parent.Position += move;
-					break;
-				default:
-					break;
-			}*/
 		}
 	}
 }

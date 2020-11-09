@@ -13,9 +13,25 @@ namespace CityBuilder.Systems
 		{
 			foreach (Entity entity in entities)
 			{
+				if (entity.HasGoRogueComponent<EnergyComponent>())
+				{
+					entity.GetGoRogueComponent<EnergyComponent>().AddEnergy(1);
+				}
+
 				if (entity.HasGoRogueComponent<AIComponent>())
 				{
-					entity.GetGoRogueComponent<AIComponent>().TakeAction();
+					if (entity.HasGoRogueComponent<EnergyComponent>())
+					{
+						if (entity.GetGoRogueComponent<EnergyComponent>().EnergyIsFull())
+						{
+							entity.GetGoRogueComponent<EnergyComponent>().ClearEnergy();
+							entity.GetGoRogueComponent<AIComponent>().TakeAction();
+						}
+					}
+					else
+					{
+						entity.GetGoRogueComponent<AIComponent>().TakeAction();
+					}
 				}
 			}
 

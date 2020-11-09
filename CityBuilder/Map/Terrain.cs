@@ -22,17 +22,11 @@ namespace CityBuilder.Map
 
 	public class SimpleFloor : Terrain
 	{
-		public SimpleFloor(GoRogue.Coord position) : base(position, true, true, Color.White, Color.Black, '.')
-		{
-
-		}
+		public SimpleFloor(GoRogue.Coord position) : base(position, true, true, Color.White, Color.Black, ' ') { }
 	}
 
 	public class SimpleWall : Terrain
 	{
-		public SimpleWall(GoRogue.Coord position) : base(position, false, false, Color.White, Color.Black, '#')
-		{
-
-		}
+		public SimpleWall(GoRogue.Coord position) : base(position, false, false, Color.DarkSlateGray, Color.Black, '#') { }
 	}
 }

@@ -12,6 +12,7 @@ using CityBuilder.Entities;
 using CityBuilder.Actions;
 using CityBuilder.Systems;
 using System.Reflection;
+using CityBuilder.Controls;
 
 namespace CityBuilder
 {
@@ -28,13 +29,12 @@ namespace CityBuilder
 		public Map.Map MainMap;
 		public Console MainConsole;
 
-		const int mapWidth = 50;
-		const int mapHeight = 50;
+		const int mapWidth = 40;
+		const int mapHeight = 40;
 
 		public static uint GameTime;
 
-		// ID Generator
-		public static GoRogue.IDGenerator EntityIDGenerator;
+		public bool runConstantly;
 
 		public GameLogic()
 		{
@@ -45,6 +45,10 @@ namespace CityBuilder
 			SadConsole.Game.OnInitialize = InitializeGame;
 			SadConsole.Game.OnUpdate = RunGame;
 
+			// Set FPS limit
+			SadConsole.Game.Instance.IsFixedTimeStep = true;
+			SadConsole.Game.Instance.TargetElapsedTime = TimeSpan.FromSeconds(1 / 60.0f);
+
 			// Start the game.
 			SadConsole.Game.Instance.Run();
 			SadConsole.Game.Instance.Dispose();
@@ -52,58 +56,33 @@ namespace CityBuilder
 
 		public void InitializeGame()
 		{
-			// Initialize id generator
-			EntityIDGenerator = new GoRogue.IDGenerator();
-
-			// Initialize default map terrain
-			GoRogue.MapViews.ArrayMap2D<Terrain> arraymap = new GoRogue.MapViews.ArrayMap2D<Terrain>(mapWidth, mapHeight);
-			for (int x = 0; x < mapWidth; x++)
-			{
-				for (int y = 0; y < mapHeight; y++)
-				{
-					if (y == mapHeight / 2 && x > 5)
-					{
-						arraymap[x, y] = new SimpleWall(new GoRogue.Coord(x, y));
-					}
-					else if (y == mapHeight / 4 && x < mapWidth - 5)
-					{
-						arraymap[x, y] = new SimpleWall(new GoRogue.Coord(x, y));
-					}
-					else if (y == (mapHeight / 4) + (mapHeight / 2) && x < mapWidth - 5)
-					{
-						arraymap[x, y] = new SimpleWall(new GoRogue.Coord(x, y));
-					}
-					else
-					{
-						arraymap[x, y] = new SimpleFloor(new GoRogue.Coord(x, y));
-					}
-				}
-			}
-
 			// Initialize the map object
 			MainMap = new Map.Map(mapWidth, mapHeight, 1, GoRogue.Distance.EUCLIDEAN);
-			MainMap.ApplyTerrainOverlay(arraymap);
+			MainMap.TestMapTerrain(mapWidth, mapHeight);
 
 			// Initialize the main console
-			MainConsole = new Console(mapWidth, 25);
+			MainConsole = new Console(mapWidth, mapHeight);
 			MainMap.ConfigureAsRenderer(MainConsole);
+			MainConsole.Components.Add(new MapMouseControlComponent());
+			MainConsole.Children.Add(ControlSystem.SelectionBox);
 
 			Random rand = new Random();
 
 			Entities = new List<Entity>();
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 25; i++)
 			{
-				int x = rand.Next(0, MainMap.Width);
-				int y = rand.Next(0, MainMap.Height);
-				while (!MainMap.WalkabilityView[x, y])
+				int x, y;
+				do
 				{
 					x = rand.Next(0, MainMap.Width);
 					y = rand.Next(0, MainMap.Height);
-				}
+				} while (!MainMap.WalkabilityView[x, y]);
+
 				Color color = new Color(rand.Next(100, 256), rand.Next(100, 256), rand.Next(100, 256));
 				Entity player = new Entity(new GoRogue.Coord(x, y), 1, false, true, color, Color.Black, '@');
 				player.AddGoRogueComponent(new AIComponent());
 				player.AddGoRogueComponent(new HealthComponent(10));
+				player.AddGoRogueComponent(new EnergyComponent(rand.Next(1, 10)));
 				MainMap.AddEntity(player);
 				Entities.Add(player);
 			}
@@ -112,22 +91,41 @@ namespace CityBuilder
 			SadConsole.Global.CurrentScreen = MainConsole;
 
 			GameTime = 0;
+			runConstantly = false;
 		}
 
 		public void RunGame(GameTime time)
 		{
-			if (SadConsole.Global.KeyboardState.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space))
+			if (SadConsole.Global.KeyboardState.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space) || runConstantly)
 			{
 				GameTime++;
 
 				MovementSystem.ProcessTurn(Entities);
-				
-				MainConsole.Print(1, 1, $"{GameTime}");
+
+				// Print game time and FPS
+				String elapsedTime = $"Time: {GameTime}";
+				String fps = $"FPS: {Math.Round(1f / time.ElapsedGameTime.TotalSeconds)}";
+				MainConsole.Clear(new Rectangle(1, 1, elapsedTime.Length, 1));
+				MainConsole.Clear(new Rectangle(1, 2, fps.Length, 1));
+				MainConsole.Print(1, 1, elapsedTime);
+				MainConsole.Print(1, 2, fps);
 			}
 
 			if (SadConsole.Global.KeyboardState.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Q))
 			{
 				SadConsole.Game.Instance.Exit();
+			}
+
+			if (SadConsole.Global.KeyboardState.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
+			{
+				if (runConstantly)
+				{
+					runConstantly = false;
+				}
+				else
+				{
+					runConstantly = true;
+				}
 			}
 		}
 	}

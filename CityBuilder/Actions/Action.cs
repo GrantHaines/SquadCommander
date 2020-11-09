@@ -9,11 +9,13 @@ namespace CityBuilder.Actions
 {
 	abstract class Action
 	{
-		public Action()
+		public Entity Parent;
+
+		public Action(Entity parent)
 		{
-			
+			Parent = parent;
 		}
 
-		public abstract void PerformAction(Entity parent);
+		public abstract void PerformAction();
 	}
 }

@@ -18,23 +18,18 @@ namespace CityBuilder
 {
 	class GameLogic
 	{
-		// Current program state
-		// 0 = Gameplay map
-		//public int GameState;
-
 		// List of every entity in the game
 		public List<Entity> Entities;
 
 		// TEMP
-		public Map.Map MainMap;
-		public Console MainConsole;
+		public static Map.Map MainMap;
+		public static Console MainConsole;
 
 		const int mapWidth = 40;
 		const int mapHeight = 40;
 
 		public static uint GameTime;
-
-		public bool runConstantly;
+		public static bool runConstantly;
 
 		public GameLogic()
 		{
@@ -80,6 +75,7 @@ namespace CityBuilder
 
 				Color color = new Color(rand.Next(100, 256), rand.Next(100, 256), rand.Next(100, 256));
 				Entity player = new Entity(new GoRogue.Coord(x, y), 1, false, true, color, Color.Black, '@');
+				player.Name = $"Actor {i}";
 				player.AddGoRogueComponent(new AIComponent());
 				player.AddGoRogueComponent(new HealthComponent(10));
 				player.AddGoRogueComponent(new EnergyComponent(rand.Next(1, 10)));

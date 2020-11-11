@@ -1,4 +1,6 @@
 ﻿using CityBuilder.Actions;
+using GoRogue;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,15 +104,33 @@ namespace CityBuilder.Entities
 				ActionType = new MoveTo((Entity)Parent, Goal);
 			}
 		}
+
+		public void SetGoal(Coord move)
+		{
+			Goal = move;
+			ActionType = new MoveTo((Entity)Parent, Goal);
+		}
 	}
 
-	class PlayerControlComponent : Component
+	class SelectedActorComponent : Component
 	{
-		public bool Selected;
+		private SadConsole.Console SelectedBox;
 
-		public PlayerControlComponent()
+		public SelectedActorComponent()
 		{
+			SelectedBox = new SadConsole.Console(3, 3);
+			SelectedBox.SetCellAppearance(0, 0, new SadConsole.Cell(Color.White, Color.Transparent, 218));
+			SelectedBox.SetCellAppearance(2, 0, new SadConsole.Cell(Color.White, Color.Transparent, 191));
+			SelectedBox.SetCellAppearance(0, 2, new SadConsole.Cell(Color.White, Color.Transparent, 192));
+			SelectedBox.SetCellAppearance(2, 2, new SadConsole.Cell(Color.White, Color.Transparent, 217));
+			SelectedBox.Position = Parent.Position - new Point(1, 1);
 
+			GameLogic.MainConsole.Children.Add(SelectedBox);
+		}
+
+		~SelectedActorComponent()
+		{
+			GameLogic.MainConsole.Children.Remove(SelectedBox);
 		}
 	}
 }

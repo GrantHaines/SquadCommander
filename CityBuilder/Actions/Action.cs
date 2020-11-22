@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace CityBuilder.Actions
 {
-	abstract class Action
+	public abstract class Action
 	{
-		public Entity Parent;
+		public GameEntity Parent;
 
-		public Action(Entity parent)
+		public Action(GameEntity parent)
 		{
 			Parent = parent;
 		}

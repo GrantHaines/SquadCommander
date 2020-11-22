@@ -9,9 +9,9 @@ namespace CityBuilder.Systems
 {
 	static class MovementSystem
 	{
-		public static bool ProcessTurn(List<Entity> entities)
+		public static bool ProcessTurn(List<GameEntity> entities)
 		{
-			foreach (Entity entity in entities)
+			foreach (GameEntity entity in entities)
 			{
 				if (entity.HasGoRogueComponent<EnergyComponent>())
 				{

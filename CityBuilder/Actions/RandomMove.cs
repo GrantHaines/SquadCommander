@@ -8,13 +8,13 @@ using CityBuilder.Entities;
 
 namespace CityBuilder.Actions
 {
-	class RandomMove : Action
+	public class RandomMove : Action
 	{
 		public GoRogue.Coord Goal;
 		static public Random rand = new Random();
 		public int WaitTime;
 
-		public RandomMove(Entity parent) : base(parent)
+		public RandomMove(GameEntity parent) : base(parent)
 		{
 			Goal = new GoRogue.Coord(-1, -1);
 			WaitTime = 0;
@@ -35,7 +35,7 @@ namespace CityBuilder.Actions
 				} while ((Goal - Parent.Position) == zero || !Parent.CurrentMap.WalkabilityView[x, y]);
 			}
 
-			Map.Map map = (Map.Map)Parent.CurrentMap;
+			Map.GameMap map = (Map.GameMap)Parent.CurrentMap;
 			GoRogue.Pathing.FastAStar pathing = new GoRogue.Pathing.FastAStar(map.WalkabilityView, GoRogue.Distance.EUCLIDEAN);
 			GoRogue.Pathing.Path path = pathing.ShortestPath(Parent.Position, Goal);
 			if (path != null)

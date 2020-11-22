@@ -47,10 +47,10 @@
     <Compile Include="Actions\RandomMove.cs" />
     <Compile Include="CityBuilder.cs" />
     <Compile Include="Controls\MapControls.cs" />
-    <Compile Include="Entities\Component.cs" />
-    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\GameComponent.cs" />
+    <Compile Include="Entities\GameEntity.cs" />
     <Compile Include="GameLogic.cs" />
-    <Compile Include="Map\Map.cs" />
+    <Compile Include="Map\GameMap.cs" />
     <Compile Include="Map\Terrain.cs" />
     <Compile Include="Systems\ControlSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
@@ -71,9 +71,6 @@
     </Reference>
     <Reference Include="SadConsole, Version=8.99.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SadConsole.8.99.3\lib\netstandard2.0\SadConsole.dll</HintPath>
-    </Reference>
-    <Reference Include="SadConsole.GoRogue, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SadConsole.GoRogueHelpers.1.0.1\lib\netstandard2.0\SadConsole.GoRogue.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Troschuetz.Random, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">

@@ -8,11 +8,11 @@ using CityBuilder.Entities;
 
 namespace CityBuilder.Actions
 {
-	class MoveTo : Action
+	public class MoveTo : Action
 	{
 		public GoRogue.Coord Goal;
 
-		public MoveTo(Entity parent, GoRogue.Coord goal) : base(parent)
+		public MoveTo(GameEntity parent, GoRogue.Coord goal) : base(parent)
 		{
 			Goal = goal;
 		}
@@ -21,7 +21,7 @@ namespace CityBuilder.Actions
 		{
 			if (Parent.Position != Goal)
 			{
-				Map.Map map = (Map.Map)Parent.CurrentMap;
+				Map.GameMap map = (Map.GameMap)Parent.CurrentMap;
 				GoRogue.Pathing.FastAStar pathing = new GoRogue.Pathing.FastAStar(map.WalkabilityView, GoRogue.Distance.EUCLIDEAN);
 				GoRogue.Pathing.Path path = pathing.ShortestPath(Parent.Position, Goal);
 				if (path != null)

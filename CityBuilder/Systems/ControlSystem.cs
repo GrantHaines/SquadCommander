@@ -10,14 +10,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Entity = CityBuilder.Entities.Entity;
+using GameEntity = CityBuilder.Entities.GameEntity;
 
 namespace CityBuilder.Systems
 {
 	static class ControlSystem
 	{
 		public static SadConsole.Console SelectionBox = new SadConsole.Console(1, 1) { UseMouse = false };
-		public static List<Entity> SelectedEntities = new List<Entity>();
+		public static List<GameEntity> SelectedEntities = new List<GameEntity>();
 
 		public static bool ActiveSelecting = false;
 		public static bool UpdatedSelection = false;
@@ -26,7 +26,7 @@ namespace CityBuilder.Systems
 
 		public static void StartSelectionBox()
 		{
-			foreach (Entities.Entity entity in SelectedEntities)
+			foreach (Entities.GameEntity entity in SelectedEntities)
 			{
 				//entity.RemoveGoRogueComponent(entity.GetGoRogueComponent<Entities.SelectedActorComponent>());
 			}
@@ -51,7 +51,7 @@ namespace CityBuilder.Systems
 			{
 				for (int y = SelectionBox.Position.Y + 1; y < SelectionBox.Position.Y + SelectionBox.Height - 1; y++)
 				{
-					Entities.Entity entity = GameLogic.MainMap.GetEntity<Entities.Entity>(new Coord(x, y));
+					Entities.GameEntity entity = GameLogic.MainMap.GetEntity<Entities.GameEntity>(new Coord(x, y));
 					if (entity != null)
 					{
 						System.Console.WriteLine($"{entity.Name} selected");
@@ -66,7 +66,7 @@ namespace CityBuilder.Systems
 
 		public static void GiveMoveOrders(Coord toMove)
 		{
-			foreach (Entity entity in SelectedEntities)
+			foreach (GameEntity entity in SelectedEntities)
 			{
 				if (entity.GetGoRogueComponent<AIComponent>() != null)
 				{

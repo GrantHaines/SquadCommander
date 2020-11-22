@@ -19,10 +19,10 @@ namespace CityBuilder
 	class GameLogic
 	{
 		// List of every entity in the game
-		public List<Entity> Entities;
+		public List<GameEntity> Entities;
 
 		// TEMP
-		public static Map.Map MainMap;
+		public static Map.GameMap MainMap;
 		public static Console MainConsole;
 
 		const int mapWidth = 40;
@@ -52,7 +52,7 @@ namespace CityBuilder
 		public void InitializeGame()
 		{
 			// Initialize the map object
-			MainMap = new Map.Map(mapWidth, mapHeight, 1, GoRogue.Distance.EUCLIDEAN);
+			MainMap = new Map.GameMap(mapWidth, mapHeight, 1, GoRogue.Distance.EUCLIDEAN);
 			MainMap.TestMapTerrain(mapWidth, mapHeight);
 
 			// Initialize the main console
@@ -63,7 +63,7 @@ namespace CityBuilder
 
 			Random rand = new Random();
 
-			Entities = new List<Entity>();
+			Entities = new List<GameEntity>();
 			for (int i = 0; i < 25; i++)
 			{
 				int x, y;
@@ -74,7 +74,7 @@ namespace CityBuilder
 				} while (!MainMap.WalkabilityView[x, y]);
 
 				Color color = new Color(rand.Next(100, 256), rand.Next(100, 256), rand.Next(100, 256));
-				Entity player = new Entity(new GoRogue.Coord(x, y), 1, false, true, color, Color.Black, '@');
+				GameEntity player = new GameEntity(new GoRogue.Coord(x, y), 1, false, true, color, Color.Black, '@');
 				player.Name = $"Actor {i}";
 				player.AddGoRogueComponent(new AIComponent());
 				player.AddGoRogueComponent(new HealthComponent(10));

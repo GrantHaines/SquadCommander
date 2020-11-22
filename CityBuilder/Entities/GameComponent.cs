@@ -6,15 +6,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GoRogue.GameFramework.Components;
+using GoRogue.GameFramework;
 
 namespace CityBuilder.Entities
 {
-	class Component : SadConsole.Components.GoRogue.ComponentBase
+	public class GameComponent
 	{
-		
+		public GameEntity Parent;
 	}
 
-	class HealthComponent : Component
+	public class HealthComponent : GameComponent
 	{
 		int CurrentHealth;
 		int MaxHealth;
@@ -26,7 +28,7 @@ namespace CityBuilder.Entities
 		}
 	}
 
-	class EnergyComponent : Component
+	public class EnergyComponent : GameComponent
 	{
 		private int CurrentEnergy;
 		private int EnergyToMove;
@@ -64,7 +66,7 @@ namespace CityBuilder.Entities
 		}
 	}
 
-	class AIComponent : Component
+	public class AIComponent : GameComponent
 	{
 		public Actions.Action ActionType;
 		public GoRogue.Coord Goal;
@@ -101,18 +103,18 @@ namespace CityBuilder.Entities
 					Goal = new GoRogue.Coord(x, y);
 				} while ((Goal - Parent.Position) == zero || !Parent.CurrentMap.WalkabilityView[x, y]);
 
-				ActionType = new MoveTo((Entity)Parent, Goal);
+				ActionType = new MoveTo((GameEntity)Parent, Goal);
 			}
 		}
 
 		public void SetGoal(Coord move)
 		{
 			Goal = move;
-			ActionType = new MoveTo((Entity)Parent, Goal);
+			ActionType = new MoveTo((GameEntity)Parent, Goal);
 		}
 	}
 
-	class SelectedActorComponent : Component
+	public class SelectedActorComponent : GameComponent
 	{
 		private SadConsole.Console SelectedBox;
 

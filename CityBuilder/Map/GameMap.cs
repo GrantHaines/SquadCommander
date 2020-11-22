@@ -7,11 +7,22 @@ using System.Threading.Tasks;
 
 namespace CityBuilder.Map
 {
-	public class Map : SadConsole.BasicMap
+	public class GameMap
 	{
-		public Map(int width, int height, int numberOfEntityLayers, Distance distanceMeasurement) : base(width, height, numberOfEntityLayers, distanceMeasurement)
-		{
+		// Terrain tiles
+		public Terrain[] TerrainTiles;
+		// Entity map - possibly replace with layered spatial map at some point
+		public MultiSpatialMap<Entities.GameEntity> MapEntities;
 
+		public int Width { get; private set; };
+		public int Height { get; private set; };
+
+
+		public GameMap(int width, int height)
+		{
+			TerrainTiles = new Terrain[width * height];
+			Width = width;
+			Height = height;
 		}
 
 		public void TestMapTerrain(int mapWidth, int mapHeight)

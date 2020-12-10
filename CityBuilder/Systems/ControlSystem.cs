@@ -1,4 +1,4 @@
-﻿using CityBuilder.Entities;
+﻿using SquadCommander.Entities;
 using GoRogue;
 using Microsoft.Xna.Framework;
 using SadConsole;
@@ -10,9 +10,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameEntity = CityBuilder.Entities.GameEntity;
+using GameEntity = SquadCommander.Entities.GameEntity;
 
-namespace CityBuilder.Systems
+namespace SquadCommander.Systems
 {
 	static class ControlSystem
 	{
@@ -28,7 +28,7 @@ namespace CityBuilder.Systems
 		{
 			foreach (Entities.GameEntity entity in SelectedEntities)
 			{
-				//entity.RemoveGoRogueComponent(entity.GetGoRogueComponent<Entities.SelectedActorComponent>());
+				//entity.RemoveGoRogueComponent(entity.GetGameComponent<Entities.SelectedActorComponent>());
 			}
 			SelectedEntities.Clear();
 		}
@@ -51,7 +51,7 @@ namespace CityBuilder.Systems
 			{
 				for (int y = SelectionBox.Position.Y + 1; y < SelectionBox.Position.Y + SelectionBox.Height - 1; y++)
 				{
-					Entities.GameEntity entity = GameLogic.MainMap.GetEntity<Entities.GameEntity>(new Coord(x, y));
+					Entities.GameEntity entity = GameLogic.MainMap.GetActor(new Coord(x, y));
 					if (entity != null)
 					{
 						System.Console.WriteLine($"{entity.Name} selected");
@@ -68,10 +68,10 @@ namespace CityBuilder.Systems
 		{
 			foreach (GameEntity entity in SelectedEntities)
 			{
-				if (entity.GetGoRogueComponent<AIComponent>() != null)
+				if (entity.GetGameComponent<AIComponent>() != null)
 				{
 					Coord moveWithRand = toMove + new Coord(rand.Next(-1, 2), rand.Next(-1, 2));
-					entity.GetGoRogueComponent<AIComponent>().SetGoal(moveWithRand);
+					entity.GetGameComponent<AIComponent>().SetGoal(moveWithRand);
 				}
 			}
 		}

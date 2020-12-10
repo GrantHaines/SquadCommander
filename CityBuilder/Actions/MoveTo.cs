@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CityBuilder.Entities;
+using SquadCommander.Entities;
 
 
-namespace CityBuilder.Actions
+namespace SquadCommander.Actions
 {
 	public class MoveTo : Action
 	{
@@ -22,7 +22,7 @@ namespace CityBuilder.Actions
 			if (Parent.Position != Goal)
 			{
 				Map.GameMap map = (Map.GameMap)Parent.CurrentMap;
-				GoRogue.Pathing.FastAStar pathing = new GoRogue.Pathing.FastAStar(map.WalkabilityView, GoRogue.Distance.EUCLIDEAN);
+				GoRogue.Pathing.FastAStar pathing = new GoRogue.Pathing.FastAStar(map.GetWalkabilityMap(), GoRogue.Distance.EUCLIDEAN);
 				GoRogue.Pathing.Path path = pathing.ShortestPath(Parent.Position, Goal);
 				if (path != null)
 				{

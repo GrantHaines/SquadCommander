@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CityBuilder.Entities;
+using SquadCommander.Entities;
 
 
-namespace CityBuilder.Actions
+namespace SquadCommander.Actions
 {
 	public class RandomMove : Action
 	{
@@ -32,11 +32,11 @@ namespace CityBuilder.Actions
 					x = rand.Next(0, Parent.CurrentMap.Width);
 					y = rand.Next(0, Parent.CurrentMap.Height);
 					Goal = new GoRogue.Coord(x, y);
-				} while ((Goal - Parent.Position) == zero || !Parent.CurrentMap.WalkabilityView[x, y]);
+				} while ((Goal - Parent.Position) == zero || !Parent.CurrentMap.GetWalkabilityMap()[x, y]);
 			}
 
 			Map.GameMap map = (Map.GameMap)Parent.CurrentMap;
-			GoRogue.Pathing.FastAStar pathing = new GoRogue.Pathing.FastAStar(map.WalkabilityView, GoRogue.Distance.EUCLIDEAN);
+			GoRogue.Pathing.FastAStar pathing = new GoRogue.Pathing.FastAStar(map.GetWalkabilityMap(), GoRogue.Distance.EUCLIDEAN);
 			GoRogue.Pathing.Path path = pathing.ShortestPath(Parent.Position, Goal);
 			if (path != null)
 			{

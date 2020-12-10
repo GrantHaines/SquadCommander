@@ -7,7 +7,9 @@ using Microsoft.Xna.Framework;
 using GoRogue.GameFramework;
 using GoRogue;
 
-namespace CityBuilder.Entities
+using SquadCommander.Map;
+
+namespace SquadCommander.Entities
 {
 	public class GameEntity : SadConsole.Entities.Entity, IHasID
 	{
@@ -16,6 +18,7 @@ namespace CityBuilder.Entities
 		public uint ID { get; }
 
 		private List<GameComponent> _gameComponents;
+		public GameMap CurrentMap { get; private set; }
 
 		/// <summary>
 		/// Default entity constructor.
@@ -23,6 +26,7 @@ namespace CityBuilder.Entities
 		public GameEntity() : base(Color.White, Color.Black, '?')
 		{
 			ID = generator.UseID();
+			_gameComponents = new List<GameComponent>();
 		}
 
 		/// <summary>
@@ -35,6 +39,7 @@ namespace CityBuilder.Entities
 		{
 			Position = position;
 			ID = generator.UseID();
+			_gameComponents = new List<GameComponent>();
 		}
 
 		/// <summary>
@@ -62,7 +67,7 @@ namespace CityBuilder.Entities
 		/// </summary>
 		/// <typeparam name="T">The type of component to find.</typeparam>
 		/// <returns>The matching component, or null if one is not found.</returns>
-		public GameComponent GetGameComponent<T>()
+		public T GetGameComponent<T>() where T : GameComponent
 		{
 			// Search for the component
 			foreach (GameComponent comp in _gameComponents)
@@ -70,12 +75,27 @@ namespace CityBuilder.Entities
 				if (comp is T)
 				{
 					// Return if found
-					return comp;
+					return (T)comp;
 				}
 			}
 
 			// If none are found, return null
 			return null;
+		}
+
+		public bool HasGameComponent<T>()
+		{
+			// Search for the component
+			foreach (GameComponent comp in _gameComponents)
+			{
+				if (comp is T)
+				{
+					// Return if found
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }

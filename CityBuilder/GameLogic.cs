@@ -7,14 +7,14 @@ using Microsoft.Xna.Framework;
 
 using Console = SadConsole.Console;
 
-using CityBuilder.Map;
-using CityBuilder.Entities;
-using CityBuilder.Actions;
-using CityBuilder.Systems;
+using SquadCommander.Map;
+using SquadCommander.Entities;
+using SquadCommander.Actions;
+using SquadCommander.Systems;
 using System.Reflection;
-using CityBuilder.Controls;
+using SquadCommander.Controls;
 
-namespace CityBuilder
+namespace SquadCommander
 {
 	class GameLogic
 	{
@@ -52,12 +52,12 @@ namespace CityBuilder
 		public void InitializeGame()
 		{
 			// Initialize the map object
-			MainMap = new Map.GameMap(mapWidth, mapHeight, 1, GoRogue.Distance.EUCLIDEAN);
+			MainMap = new GameMap(mapWidth, mapHeight);
 			MainMap.TestMapTerrain(mapWidth, mapHeight);
 
 			// Initialize the main console
 			MainConsole = new Console(mapWidth, mapHeight);
-			MainMap.ConfigureAsRenderer(MainConsole);
+			//MainMap.ConfigureAsRenderer(MainConsole);
 			MainConsole.Components.Add(new MapMouseControlComponent());
 			MainConsole.Children.Add(ControlSystem.SelectionBox);
 
@@ -71,15 +71,15 @@ namespace CityBuilder
 				{
 					x = rand.Next(0, MainMap.Width);
 					y = rand.Next(0, MainMap.Height);
-				} while (!MainMap.WalkabilityView[x, y]);
+				} while (!MainMap.TileIsWalkable(x, y));
 
 				Color color = new Color(rand.Next(100, 256), rand.Next(100, 256), rand.Next(100, 256));
-				GameEntity player = new GameEntity(new GoRogue.Coord(x, y), 1, false, true, color, Color.Black, '@');
+				GameEntity player = new GameEntity(color, Color.Black, '@', new GoRogue.Coord(x, y));
 				player.Name = $"Actor {i}";
-				player.AddGoRogueComponent(new AIComponent());
-				player.AddGoRogueComponent(new HealthComponent(10));
-				player.AddGoRogueComponent(new EnergyComponent(rand.Next(1, 10)));
-				MainMap.AddEntity(player);
+				player.AddGameComponent(new AIComponent());
+				player.AddGameComponent(new HealthComponent(10));
+				player.AddGameComponent(new EnergyComponent(rand.Next(1, 10)));
+				MainMap.AddActor(player);
 				Entities.Add(player);
 			}
 

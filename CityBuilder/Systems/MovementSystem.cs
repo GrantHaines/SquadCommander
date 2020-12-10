@@ -1,11 +1,11 @@
-﻿using CityBuilder.Entities;
+﻿using SquadCommander.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CityBuilder.Systems
+namespace SquadCommander.Systems
 {
 	static class MovementSystem
 	{
@@ -13,24 +13,24 @@ namespace CityBuilder.Systems
 		{
 			foreach (GameEntity entity in entities)
 			{
-				if (entity.HasGoRogueComponent<EnergyComponent>())
+				if (entity.HasGameComponent<EnergyComponent>())
 				{
-					entity.GetGoRogueComponent<EnergyComponent>().AddEnergy(1);
+					entity.GetGameComponent<EnergyComponent>().AddEnergy(1);
 				}
 
-				if (entity.HasGoRogueComponent<AIComponent>())
+				if (entity.HasGameComponent<AIComponent>())
 				{
-					if (entity.HasGoRogueComponent<EnergyComponent>())
+					if (entity.HasGameComponent<EnergyComponent>())
 					{
-						if (entity.GetGoRogueComponent<EnergyComponent>().EnergyIsFull())
+						if (entity.GetGameComponent<EnergyComponent>().EnergyIsFull())
 						{
-							entity.GetGoRogueComponent<EnergyComponent>().ClearEnergy();
-							entity.GetGoRogueComponent<AIComponent>().TakeAction();
+							entity.GetGameComponent<EnergyComponent>().ClearEnergy();
+							entity.GetGameComponent<AIComponent>().TakeAction();
 						}
 					}
 					else
 					{
-						entity.GetGoRogueComponent<AIComponent>().TakeAction();
+						entity.GetGameComponent<AIComponent>().TakeAction();
 					}
 				}
 			}

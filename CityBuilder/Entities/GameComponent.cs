@@ -1,4 +1,4 @@
-﻿using CityBuilder.Actions;
+﻿using SquadCommander.Actions;
 using GoRogue;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using GoRogue.GameFramework.Components;
 using GoRogue.GameFramework;
 
-namespace CityBuilder.Entities
+namespace SquadCommander.Entities
 {
 	public class GameComponent
 	{
@@ -101,7 +101,7 @@ namespace CityBuilder.Entities
 					x = rand.Next(0, Parent.CurrentMap.Width);
 					y = rand.Next(0, Parent.CurrentMap.Height);
 					Goal = new GoRogue.Coord(x, y);
-				} while ((Goal - Parent.Position) == zero || !Parent.CurrentMap.WalkabilityView[x, y]);
+				} while ((Goal - Parent.Position) == zero || !Parent.CurrentMap.GetWalkabilityMap()[x, y]);
 
 				ActionType = new MoveTo((GameEntity)Parent, Goal);
 			}

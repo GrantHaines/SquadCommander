@@ -1,4 +1,4 @@
-﻿using CityBuilder.Systems;
+﻿using SquadCommander.Systems;
 using Microsoft.Xna.Framework;
 using SadConsole.Components;
 using SadConsole.Input;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CityBuilder.Controls
+namespace SquadCommander.Controls
 {
 	class MapMouseControlComponent : MouseConsoleComponent
 	{

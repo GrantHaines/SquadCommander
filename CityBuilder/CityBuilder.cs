@@ -12,9 +12,9 @@ using SadConsole;
 using Microsoft.Xna.Framework;
 using Console = SadConsole.Console;
 
-using CityBuilder.Map;
+using SquadCommander.Map;
 
-namespace CityBuilder
+namespace SquadCommander
 {
     class Program
     {

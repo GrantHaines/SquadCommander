@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CityBuilder.Map
+namespace SquadCommander.Map
 {
 	public class Terrain : Entities.GameEntity
 	{

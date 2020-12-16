@@ -1,4 +1,5 @@
 ﻿using GoRogue;
+using GoRogue.MapViews;
 using SquadCommander.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,50 +12,24 @@ namespace SquadCommander.Map
 	public class GameMap
 	{
 		// Terrain tiles
-		public Terrain[] TerrainTiles;
+		public Terrain[,] TerrainTiles;
 		// Entity map - possibly replace with layered spatial map at some point
 		public SpatialMap<GameEntity> MapActors;
+
+		public List<Room> Rooms;
 
 		public int Width { get; private set; }
 		public int Height { get; private set; }
 
 		public GameMap(int width, int height)
 		{
-			TerrainTiles = new Terrain[width * height];
+			TerrainTiles = new Terrain[width, height];
 			Width = width;
 			Height = height;
-		}
 
-		public void TestMapTerrain(int mapWidth, int mapHeight)
-		{
-			// Initialize default map terrain
-			GoRogue.MapViews.ArrayMap<Terrain> arraymap = new GoRogue.MapViews.ArrayMap<Terrain>(mapWidth, mapHeight);
-			for (int x = 0; x < mapWidth; x++)
-			{
-				for (int y = 0; y < mapHeight; y++)
-				{
-					if (y == mapHeight / 2 && x > 5)
-					{
-						arraymap[x, y] = new SimpleWall(new GoRogue.Coord(x, y));
-					}
-					else if (y == mapHeight / 4 && x < mapWidth - 5)
-					{
-						arraymap[x, y] = new SimpleWall(new GoRogue.Coord(x, y));
-					}
-					else if (y == (mapHeight / 4) + (mapHeight / 2) && x < mapWidth - 5)
-					{
-						arraymap[x, y] = new SimpleWall(new GoRogue.Coord(x, y));
-					}
-					else
-					{
-						arraymap[x, y] = new SimpleFloor(new GoRogue.Coord(x, y));
-					}
-				}
-			}
+			MapActors = new SpatialMap<GameEntity>();
 
-			// Initialize the map object
-			//ApplyTerrainOverlay(arraymap);
-			TerrainTiles = arraymap;
+			Rooms = new List<Room>();
 		}
 
 		public void AddActor(GameEntity entity)
@@ -67,22 +42,15 @@ namespace SquadCommander.Map
 			return MapActors.GetItem(position);
 		}
 
-		public GoRogue.MapViews.ArrayMap2D<bool> GetWalkabilityMap()
+		public ArrayMap2D<bool> GetWalkabilityMap()
 		{
-			GoRogue.MapViews.ArrayMap2D<bool> walkabilityMap = new GoRogue.MapViews.ArrayMap2D<bool>(Width, Height);
+			ArrayMap2D<bool> walkabilityMap = new ArrayMap2D<bool>(Width, Height);
 
 			for (int x = 0; x < Width; x++)
 			{
 				for (int y = 0; y < Height; y++)
 				{
-					if (TerrainTiles[Width * x + y].IsWalkable)
-					{
-						walkabilityMap[x, y] = true;
-					}
-					else
-					{
-						walkabilityMap[x, y] = false;
-					}
+					walkabilityMap[x, y] = TerrainTiles[x, y].IsWalkable;
 				}
 			}
 
@@ -91,7 +59,18 @@ namespace SquadCommander.Map
 
 		public bool TileIsWalkable(int x, int y)
 		{
-			return TerrainTiles[Width * x + y].IsWalkable;
+			return TerrainTiles[x, y].IsWalkable;
+		}
+
+		public ArrayMap<Terrain> GetCells()
+		{
+			ArrayMap<Terrain> arraymap = new ArrayMap<Terrain>(Width, Height);
+
+			for (int x = 0; x < Width; x++)
+				for (int y = 0; y < Height; y++)
+					arraymap[x, y] = TerrainTiles[x, y];
+
+			return arraymap;
 		}
 	}
 }

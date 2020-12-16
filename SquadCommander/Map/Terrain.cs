@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SquadCommander.Map
 {
-	public class Terrain : Entities.GameEntity
+	public class Terrain : SadConsole.Cell
 	{
 		public bool IsWalkable;
 		public bool IsTransparent;
@@ -17,26 +17,31 @@ namespace SquadCommander.Map
 
 		}
 
-		public Terrain(GoRogue.Coord position, bool isWalkable, bool isTransparent) : base(Color.White, Color.Black, '?', position)
+		public Terrain(bool isWalkable, bool isTransparent) : base(Color.White, Color.Black, '?')
 		{
 			IsWalkable = isWalkable;
 			IsTransparent = isTransparent;
 		}
 
-		public Terrain(GoRogue.Coord position, bool isWalkable, bool isTransparent, Color foreground, Color background, int glyph) : base(foreground, background, glyph, position)
+		public Terrain(bool isWalkable, bool isTransparent, Color foreground, Color background, int glyph) : base(foreground, background, glyph)
 		{
 			IsWalkable = isWalkable;
 			IsTransparent = isTransparent;
 		}
+	}
+
+	public class SimpleVoid : Terrain
+	{
+		public SimpleVoid() : base(true, true, Color.Black, Color.Black, '.') { }
 	}
 
 	public class SimpleFloor : Terrain
 	{
-		public SimpleFloor(GoRogue.Coord position) : base(position, true, true, Color.White, Color.Black, '.') { }
+		public SimpleFloor() : base(true, true, Color.White, Color.Black, '.') { }
 	}
 
 	public class SimpleWall : Terrain
 	{
-		public SimpleWall(GoRogue.Coord position) : base(position, false, false, Color.DarkSlateGray, Color.Black, '#') { }
+		public SimpleWall() : base(false, false, Color.DarkSlateGray, Color.Black, '#') { }
 	}
 }

@@ -25,8 +25,8 @@ namespace SquadCommander
 		public static Map.GameMap MainMap;
 		public static Console MainConsole;
 
-		const int mapWidth = 40;
-		const int mapHeight = 40;
+		const int mapWidth = 60;
+		const int mapHeight = 60;
 
 		public static uint GameTime;
 		public static bool runConstantly;
@@ -53,17 +53,16 @@ namespace SquadCommander
 		{
 			// Initialize the map object
 			MainMap = new GameMap(mapWidth, mapHeight);
-			MainMap.TestMapTerrain(mapWidth, mapHeight);
+			MapGenerator.BasicRoomHallTerrain(MainMap);
 
 			// Initialize the main console
-			MainConsole = new Console(mapWidth, mapHeight);
-			//MainMap.ConfigureAsRenderer(MainConsole);
+			MainConsole = new Console(mapWidth, mapHeight, MainMap.GetCells());
 			MainConsole.Components.Add(new MapMouseControlComponent());
 			MainConsole.Children.Add(ControlSystem.SelectionBox);
 
 			Random rand = new Random();
 
-			Entities = new List<GameEntity>();
+			/*Entities = new List<GameEntity>();
 			for (int i = 0; i < 25; i++)
 			{
 				int x, y;
@@ -81,7 +80,7 @@ namespace SquadCommander
 				player.AddGameComponent(new EnergyComponent(rand.Next(1, 10)));
 				MainMap.AddActor(player);
 				Entities.Add(player);
-			}
+			}*/
 
 			// Set main console as the current screen
 			SadConsole.Global.CurrentScreen = MainConsole;

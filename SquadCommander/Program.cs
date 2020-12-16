@@ -3,7 +3,7 @@
  * Author: Grant Haines
  * Date Created: October 5th, 2020
  * 
- * Description: Main program class for the CityBuilder project.
+ * Description: Main program class for the Squad Commander project.
  * 
  */
 

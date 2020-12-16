@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+
+<map>
+	<!--Map Header-->
+	<header>
+		<width>60</width>
+		<height>60</height>
+	</header>
+	<room_list>
+		<room>
+			<position>
+				<x>25</x>
+				<y>25</y>
+			</position>
+			<width>10</width>
+			<height>10</height>
+		</room>
+		<room>
+			<position>
+				<x>19</x>
+				<y>36</y>
+			</position>
+			<width>14</width>
+			<height>5</height>
+		</room>
+		<room>
+			<position>
+				<x>36</x>
+				<y>20</y>
+			</position>
+			<width>7</width>
+			<height>13</height>
+		</room>
+	</room_list>
+	<door_list>
+		<door>
+			<position>
+				<x>35</x>
+				<y>29</y>
+			</position>
+		</door>
+		<door>
+			<position>
+				<x>29</x>
+				<y>35</y>
+			</position>
+		</door>
+	</door_list>
+</map>

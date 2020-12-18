@@ -127,12 +127,12 @@ namespace SquadCommander.Entities
 			SelectedBox.SetCellAppearance(2, 2, new SadConsole.Cell(Color.White, Color.Transparent, 217));
 			SelectedBox.Position = Parent.Position - new Point(1, 1);
 
-			GameLogic.MainConsole.Children.Add(SelectedBox);
+			GameLogic.GameMapScreen.MainConsole.Children.Add(SelectedBox);
 		}
 
 		~SelectedActorComponent()
 		{
-			GameLogic.MainConsole.Children.Remove(SelectedBox);
+			GameLogic.GameMapScreen.MainConsole.Children.Remove(SelectedBox);
 		}
 	}
 }

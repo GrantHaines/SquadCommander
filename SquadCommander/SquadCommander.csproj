@@ -47,6 +47,7 @@
     <Compile Include="Actions\RandomMove.cs" />
     <Compile Include="Map\MapGenerator.cs" />
     <Compile Include="Map\Room.cs" />
+    <Compile Include="GameScreens\MenuScreen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Controls\MapControls.cs" />
     <Compile Include="Entities\GameComponent.cs" />

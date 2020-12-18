@@ -13,6 +13,7 @@ using SquadCommander.Actions;
 using SquadCommander.Systems;
 using System.Reflection;
 using SquadCommander.Controls;
+using SquadCommander.GameScreens;
 
 namespace SquadCommander
 {
@@ -21,9 +22,15 @@ namespace SquadCommander
 		// List of every entity in the game
 		public List<GameEntity> Entities;
 
+		// Game screens
+		public static MenuScreen MenuScreen;
+
 		// TEMP
 		public static Map.GameMap MainMap;
 		public static Console MainConsole;
+
+		public const int WindowWidth = 100;
+		public const int WindowHeight = 100;
 
 		const int mapWidth = 60;
 		const int mapHeight = 60;
@@ -51,6 +58,9 @@ namespace SquadCommander
 
 		public void InitializeGame()
 		{
+			// Create main menu
+			MenuScreen = new MenuScreen();
+
 			// Initialize the map object
 			MainMap = new GameMap(mapWidth, mapHeight);
 			MapGenerator.BasicRoomHallTerrain(MainMap);
@@ -104,6 +114,11 @@ namespace SquadCommander
 				MainConsole.Clear(new Rectangle(1, 2, fps.Length, 1));
 				MainConsole.Print(1, 1, elapsedTime);
 				MainConsole.Print(1, 2, fps);
+			}
+
+			if (SadConsole.Global.KeyboardState.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Escape))
+			{
+				MenuScreen.SetAsCurrentScreen();
 			}
 
 			if (SadConsole.Global.KeyboardState.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Q))

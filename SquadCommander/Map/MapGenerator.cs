@@ -163,7 +163,7 @@ namespace SquadCommander.Map
 		static private bool ValidRoomLocation(ArrayMap2D<Terrain> arraymap, Room room)
 		{
 			// Check thta the room is inside the map
-			if (room.Position.X - 1 < 0 || room.Position.Y - 1 < 0 || room.Position.X + room.Width > arraymap.Width || room.Position.Y + room.Height > arraymap.Height)
+			if (room.Position.X - 1 < 0 || room.Position.Y - 1 < 0 || room.Position.X + room.Width + 1 > arraymap.Width || room.Position.Y + room.Height + 1 > arraymap.Height)
 			{
 				return false;
 			}

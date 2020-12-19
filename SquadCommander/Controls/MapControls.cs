@@ -80,4 +80,18 @@ namespace SquadCommander.Controls
 			ControlSystem.UpdateSelectionBox(selection);
 		}
 	}
+
+	class MapKeyboardControlComponent : KeyboardConsoleComponent
+	{
+		public override void ProcessKeyboard(SadConsole.Console console, Keyboard info, out bool handled)
+		{
+			// Exit
+			if (info.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Q))
+			{
+				SadConsole.Game.Instance.Exit();
+			}
+
+			handled = true;
+		}
+	}
 }

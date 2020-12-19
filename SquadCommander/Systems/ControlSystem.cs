@@ -51,7 +51,7 @@ namespace SquadCommander.Systems
 			{
 				for (int y = SelectionBox.Position.Y + 1; y < SelectionBox.Position.Y + SelectionBox.Height - 1; y++)
 				{
-					Entities.GameEntity entity = GameLogic.GameMapScreen.MainMap.GetActor(new Coord(x, y));
+					Entities.GameEntity entity = GameLogic.GameMapScreen.CurrentMap.GetActor(new Coord(x, y));
 					if (entity != null)
 					{
 						System.Console.WriteLine($"{entity.Name} selected");

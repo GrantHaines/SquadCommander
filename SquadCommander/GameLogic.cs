@@ -17,23 +17,26 @@ using SquadCommander.GameScreens;
 
 namespace SquadCommander
 {
+	enum GameState
+	{
+		MAIN_MENU,
+		GAME_MAP
+	}
+
 	class GameLogic
 	{
-		// List of every entity in the game
-		public List<GameEntity> Entities;
-
 		// Game screens
 		public static MenuScreen MenuScreen;
 		public static GameMapScreen GameMapScreen;
+
+		// Game state
+		public static GameState CurrentGameState;
 
 		public const int WindowWidth = 80;
 		public const int WindowHeight = 60;
 
 		public const int mapWidth = 60;
 		public const int mapHeight = 60;
-
-		public static uint GameTime;
-		public static bool runConstantly;
 
 		public GameLogic()
 		{
@@ -62,48 +65,17 @@ namespace SquadCommander
 			Random rand = new Random();
 
 			MenuScreen.SetAsCurrentScreen();
-
-			GameTime = 0;
-			runConstantly = false;
 		}
 
 		public void RunGame(GameTime time)
 		{
-			if (SadConsole.Global.KeyboardState.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space) || runConstantly)
+			switch (CurrentGameState)
 			{
-				GameTime++;
-
-				MovementSystem.ProcessTurn(Entities);
-
-				// Print game time and FPS
-				String elapsedTime = $"Time: {GameTime}";
-				String fps = $"FPS: {Math.Round(1f / time.ElapsedGameTime.TotalSeconds)}";
-				GameMapScreen.MainConsole.Clear(new Rectangle(1, 1, elapsedTime.Length, 1));
-				GameMapScreen.MainConsole.Clear(new Rectangle(1, 2, fps.Length, 1));
-				GameMapScreen.MainConsole.Print(1, 1, elapsedTime);
-				GameMapScreen.MainConsole.Print(1, 2, fps);
-			}
-
-			if (SadConsole.Global.KeyboardState.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Escape))
-			{
-				MenuScreen.SetAsCurrentScreen();
-			}
-
-			if (SadConsole.Global.KeyboardState.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Q))
-			{
-				SadConsole.Game.Instance.Exit();
-			}
-
-			if (SadConsole.Global.KeyboardState.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
-			{
-				if (runConstantly)
-				{
-					runConstantly = false;
-				}
-				else
-				{
-					runConstantly = true;
-				}
+				case GameState.MAIN_MENU:
+					break;
+				case GameState.GAME_MAP:
+					GameMapScreen.GameMapLoop(time);
+					break;
 			}
 		}
 	}

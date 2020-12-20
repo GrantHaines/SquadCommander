@@ -85,10 +85,10 @@ namespace SquadCommander.Controls
 	{
 		public override void ProcessKeyboard(SadConsole.Console console, Keyboard info, out bool handled)
 		{
-			// Exit
-			if (info.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Q))
+			// Open main menu
+			if (info.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Escape))
 			{
-				SadConsole.Game.Instance.Exit();
+				GameLogic.SwitchGameState(GameState.MAIN_MENU);
 			}
 
 			handled = true;

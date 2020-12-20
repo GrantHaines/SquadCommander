@@ -11,7 +11,7 @@ using SquadCommander.Systems;
 
 namespace SquadCommander.GameScreens
 {
-	class GameMapScreen
+	public class GameMapScreen
 	{
 		public GameMap CurrentMap;
 		public SadConsole.Console MainConsole;
@@ -30,6 +30,7 @@ namespace SquadCommander.GameScreens
 			// Initialize the main console
 			MainConsole = new SadConsole.Console(GameLogic.mapWidth, GameLogic.mapHeight, CurrentMap.GetCells());
 			MainConsole.Components.Add(new MapMouseControlComponent());
+			MainConsole.Components.Add(new MapKeyboardControlComponent());
 			MainConsole.Children.Add(ControlSystem.SelectionBox);
 
 			// Initialize variables
@@ -40,6 +41,8 @@ namespace SquadCommander.GameScreens
 		public void SetAsCurrentScreen()
 		{
 			SadConsole.Global.CurrentScreen = MainConsole;
+			GameLogic.CurrentGameState = GameState.GAME_MAP;
+			MainConsole.IsFocused = true;
 		}
 
 		public void GameMapLoop(GameTime time)

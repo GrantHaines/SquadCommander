@@ -17,13 +17,13 @@ using SquadCommander.GameScreens;
 
 namespace SquadCommander
 {
-	enum GameState
+	public enum GameState
 	{
 		MAIN_MENU,
 		GAME_MAP
 	}
 
-	class GameLogic
+	public static class GameLogic
 	{
 		// Game screens
 		public static MenuScreen MenuScreen;
@@ -38,13 +38,13 @@ namespace SquadCommander
 		public const int mapWidth = 60;
 		public const int mapHeight = 60;
 
-		public GameLogic()
+		public static void InitializeGame()
 		{
 			// Setup the engine and create the main window.
 			SadConsole.Game.Create("Assets/12x12.font", WindowWidth, WindowHeight);
 
 			// Hook the start event so we can add consoles to the system.
-			SadConsole.Game.OnInitialize = InitializeGame;
+			SadConsole.Game.OnInitialize = InitScreens;
 			SadConsole.Game.OnUpdate = RunGame;
 
 			// Set FPS limit
@@ -56,18 +56,17 @@ namespace SquadCommander
 			SadConsole.Game.Instance.Dispose();
 		}
 
-		public void InitializeGame()
+		public static void InitScreens()
 		{
 			// Create main menu
 			MenuScreen = new MenuScreen();
-			GameMapScreen = new GameMapScreen();
 
 			Random rand = new Random();
 
 			MenuScreen.SetAsCurrentScreen();
 		}
 
-		public void RunGame(GameTime time)
+		public static void RunGame(GameTime time)
 		{
 			switch (CurrentGameState)
 			{
@@ -77,6 +76,22 @@ namespace SquadCommander
 					GameMapScreen.GameMapLoop(time);
 					break;
 			}
+		}
+
+		public static void SwitchGameState(GameState newState)
+		{
+			switch (newState)
+			{
+				case GameState.MAIN_MENU:
+					MenuScreen.UpdateMenuList();
+					MenuScreen.SetAsCurrentScreen();
+					break;
+				case GameState.GAME_MAP:
+					GameMapScreen.SetAsCurrentScreen();
+					break;
+			}
+
+			CurrentGameState = newState;
 		}
 	}
 }

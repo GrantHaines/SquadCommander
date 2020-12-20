@@ -26,6 +26,21 @@ namespace SquadCommander.Controls
 				SadConsole.Game.Instance.Exit();
 			}
 
+			// Keyboard control of menu
+			if (info.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
+			{
+				Parent.MenuUp();
+			}
+			else if (info.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
+			{
+				Parent.MenuDown();
+			}
+
+			if (info.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.Enter))
+			{
+				Parent.MenuSelect();
+			}
+
 			handled = true;
 		}
 	}

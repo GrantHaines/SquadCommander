@@ -21,7 +21,7 @@ namespace SquadCommander
         // Main
         static void Main()
         {
-            GameLogic game = new GameLogic();
+            GameLogic.InitializeGame();
         }
     }
 }
